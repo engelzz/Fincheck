@@ -57,7 +57,7 @@ export class AuthService {
         name,
         email,
         password: hashedPassword,
-        categories: {
+        category: {
           createMany: {
             data: [
               // Income
