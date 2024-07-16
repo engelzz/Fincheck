@@ -3,9 +3,9 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UsersRepository } from 'src/shared/database/repositories/users.repositories';
-import { compare, hash } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { compare, hash } from 'bcryptjs';
+import { UsersRepository } from 'src/shared/database/repositories/users.repositories';
 import { SigninDto } from './dto/signin';
 import { SignupDto } from './dto/signup';
 
