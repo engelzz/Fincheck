@@ -46,7 +46,7 @@ export class BankAccountsController {
   }
 
   @Delete(':bankAccountId')
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.NO_CONTENT) //204
   remove(
     @ActiveUserId() userId: string,
     @Param('bankAccountId', ParseUUIDPipe) bankAccountId: string,

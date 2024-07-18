@@ -4,6 +4,7 @@ import { CategoriesRepository } from '../../../shared/database/repositories/cate
 @Injectable()
 export class ValidateCategoryOwnershipService {
   constructor(private readonly categoriesRepo: CategoriesRepository) {}
+
   async validate(userId: string, categoryId: string) {
     const isOwner = await this.categoriesRepo.findFirst({
       where: { id: categoryId, userId },

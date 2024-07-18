@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTransactionDto } from '../dto/create-transaction.dto';
-import { UpdateTransactionDto } from '../dto/update-transaction.dto';
 import { TransactionsRepository } from '../../../shared/database/repositories/transactions.repository';
 import { ValidateBankAccountOwnershipService } from '../../bank-accounts/services/validate-bank-account-ownership.service';
 import { ValidateCategoryOwnershipService } from '../../categories/services/validate-category-ownership.service';
-import { ValidateTransactionOwnershipService } from './validate-transaction-ownership.service';
+import { CreateTransactionDto } from '../dto/create-transaction.dto';
+import { UpdateTransactionDto } from '../dto/update-transaction.dto';
 import { TransactionType } from '../entities/transaction';
+import { ValidateTransactionOwnershipService } from './validate-transaction-ownership.service';
 
 @Injectable()
 export class TransactionsService {
@@ -15,6 +15,7 @@ export class TransactionsService {
     private readonly validateCategoryOwnershipService: ValidateCategoryOwnershipService,
     private readonly validateTransactionOwnershipService: ValidateTransactionOwnershipService,
   ) {}
+
   async create(userId: string, createTransactionDto: CreateTransactionDto) {
     const { bankAccountId, categoryId, name, type, value, date } =
       createTransactionDto;
@@ -74,6 +75,7 @@ export class TransactionsService {
       categoryId,
       transactionId,
     });
+
     return this.transactionsRepo.update({
       where: { id: transactionId },
       data: {
@@ -96,8 +98,6 @@ export class TransactionsService {
     await this.transactionsRepo.delete({
       where: { id: transactionId },
     });
-
-    return null;
   }
 
   private async validateEntitiesOwnership({
@@ -112,13 +112,20 @@ export class TransactionsService {
     transactionId?: string;
   }) {
     await Promise.all([
-      this.validateBankAccountOwnershipService.validate(userId, bankAccountId),
-      this.validateCategoryOwnershipService.validate(userId, categoryId),
       transactionId &&
         this.validateTransactionOwnershipService.validate(
           userId,
           transactionId,
         ),
+
+      bankAccountId &&
+        this.validateBankAccountOwnershipService.validate(
+          userId,
+          bankAccountId,
+        ),
+
+      categoryId &&
+        this.validateCategoryOwnershipService.validate(userId, categoryId),
     ]);
   }
 }
