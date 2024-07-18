@@ -54,8 +54,8 @@ export class TransactionsService {
         bankAccountId: filters.bankAccountId,
         type: filters.type,
         date: {
-          gte: new Date(Date.UTC(filters.year, filters.month)),
-          lt: new Date(Date.UTC(filters.year, filters.month + 1)),
+          gte: new Date(Date.UTC(filters.year, filters.month)), //greather then and equal
+          lt: new Date(Date.UTC(filters.year, filters.month + 1)), //lower then
         },
       },
     });
