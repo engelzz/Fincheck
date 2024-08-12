@@ -45,7 +45,7 @@ export class TransactionsService {
       month: number;
       year: number;
       bankAccountId?: string;
-      type: TransactionType;
+      type?: TransactionType;
     },
   ) {
     return this.transactionsRepo.findMany({
@@ -56,6 +56,15 @@ export class TransactionsService {
         date: {
           gte: new Date(Date.UTC(filters.year, filters.month)), //greather then and equal
           lt: new Date(Date.UTC(filters.year, filters.month + 1)), //lower then
+        },
+      },
+      include: {
+        category: {
+          select: {
+            name: true,
+            id: true,
+            icon: true,
+          },
         },
       },
     });
