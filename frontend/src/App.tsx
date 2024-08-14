@@ -1,5 +1,27 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
+import { Router } from "./Router/router";
+import { AuthProvider } from "./app/contexts/AuthContext";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
+
 export function App() {
   return (
-    <h1 className="bg-red-500 text-white">FINCHECK</h1>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router />
+        <Toaster />
+      </AuthProvider>
+
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   )
 }
