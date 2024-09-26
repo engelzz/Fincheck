@@ -3,7 +3,7 @@ import { UserMenu } from "../../components/UserMenu";
 import Accounts from "./components/Accounts/Accounts";
 import { DashboardContext, DashboardProvider } from "./components/DashboardContext/DashboardContext";
 import { Fab } from "./components/Fab/Fab";
-import Transactions from "./components/Transactions/Transactions";
+import { Transactions } from "./components/Transactions/Transactions";
 import { EditAccountModal } from "./modals/EditAccountModal/editAccountModal";
 import { NewAccountModal } from "./modals/NewAccountModal/newAccountModal";
 import { NewTransactionModal } from "./modals/NewTransactionsModal/newTransactionModal";
@@ -33,7 +33,7 @@ export function Dashboard() {
             <Fab />
             <NewAccountModal />
             <NewTransactionModal />
-            <EditAccountModal />
+            {accountBeingEdited && <EditAccountModal />}
         </div>
         )}
       </DashboardContext.Consumer>

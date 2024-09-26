@@ -12,6 +12,6 @@ export function useTransactions(filters: TransactionsFilters) {
     transactions: data ?? [],
     isLoading: isFetching,
     isInitialLoading,
-    refetch,
+    refetchTransactions: refetch,
   }
 }
