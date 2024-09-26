@@ -1,43 +1,50 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { z } from "zod";
-import { authService } from "../../../app/services/AuthService/auth.Service.ts";
-import { SigninParams } from "../../../app/services/AuthService/signin.ts";
-import { useAuth } from "../../../hooks/useAuth.ts";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { z } from 'zod';
+import { authService } from '../../../app/services/AuthService/auth.Service.ts';
+import { SigninParams } from '../../../app/services/AuthService/signin';
+import { useAuth } from '../../../hooks/useAuth';
 
-type FormData = z.infer<typeof schema>
 
 const schema = z.object({
-  email: z.string().min(1, "O e-mail é obrigatório").email('Informe um e-mail válido'),
-  password: z.string().min(1, 'A senha é obrigatória').min(8, 'A senha precisa conter no mínimo 8 caracteres'),
-})
+  email: z.string()
+    .nonempty('E-mail é obrigatório')
+    .email('Informe um e-mail válido'),
+  password: z.string()
+    .nonempty('Senha é obrigatória')
+    .min(8, 'Senha deve conter pelo menos 8 dígitos'),
+});
+
+type FormData = z.infer<typeof schema>;
 
 export function useLoginController() {
   const {
     register,
-    handleSubmit: hookFormHandleSubmit,
+    handleSubmit: hookFormSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: async (data: SigninParams) => {
-      authService.signin(data);
+      return authService.signin(data);
     },
   });
 
   const { signin } = useAuth();
 
-  const handleSubmit = hookFormHandleSubmit(async (data) => {
+  const handleSubmit = hookFormSubmit(async (data) => {
     try {
       const { accessToken } = await mutateAsync(data);
 
       signin(accessToken);
     } catch {
-      toast.error('Credenciais inválida')
+      toast.error('Credenciais inválidas!')
     }
-  })
+  });
 
-  return { handleSubmit, register, errors, isPending };
+  return { handleSubmit, register, errors, isLoading };
 }

@@ -101,11 +101,11 @@ export function NewTransactionModal() {
               control={control}
               name="date"
               defaultValue={new Date()}
-              render={({field: { value, onChange }}) => (
+              render={({ field: { value, onChange }}) => (
                 <DatePickerInput
+                  error={errors.date?.message}
                   value={value}
                   onChange={onChange}
-                  error={errors.date?.message}
                 />
               )}
             />

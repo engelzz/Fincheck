@@ -2,37 +2,39 @@ import { Controller } from "react-hook-form";
 import { Button } from "../../../../components/Button";
 import { ColorsDropdownInput } from "../../../../components/ColorsDropdownInput";
 import { ConfirmDeleteModal } from "../../../../components/ConfirmDeleteModal";
-import { TrashIcon } from "../../../../components/icons/TrashIcon";
 import { Input } from "../../../../components/Input";
 import { InputCurrency } from "../../../../components/InputCurrency";
 import { Modal } from "../../../../components/Modal/Modal";
 import { Select } from "../../../../components/Select";
+import { TrashIcon } from "../../../../components/icons/TrashIcon";
 import { useEditAccountController } from "./useEditAccountModal";
 
 export function EditAccountModal() {
   const {
-    closeEditAccountModal,
     isEditAccountModalOpen,
-    register,
+    closeEditAccountModal,
     errors,
     handleSubmit,
+    register,
     control,
     isLoading,
     isDeleteModalOpen,
-    handleCloseDeleteModal,
     handleOpenDeleteModal,
+    handleCloseDeleteModal,
     handleDeleteAccount,
     isLoadingDelete,
   } = useEditAccountController();
 
   if (isDeleteModalOpen) {
-    return <ConfirmDeleteModal
-      isLoading={isLoadingDelete}
-      onClose={handleCloseDeleteModal}
-      title="Tem certeza que deseja excluir essa conta?"
-      description="Ao excluir a conta, também serão excluídos todos os registros de receita e despesas relacionados."
-      onConfirm={handleDeleteAccount}
-    />
+    return (
+      <ConfirmDeleteModal
+        isLoading={isLoadingDelete}
+        onConfirm={handleDeleteAccount}
+        onClose={handleCloseDeleteModal}
+        title="Tem certeza que deseja excluir esta conta?"
+        description="Ao excluir a conta, também serão excluídos todos os registros de receita e despesas relacionados."
+      />
+    );
   }
 
   return (
@@ -42,29 +44,28 @@ export function EditAccountModal() {
       onClose={closeEditAccountModal}
       rightAction={(
         <button onClick={handleOpenDeleteModal}>
-          <TrashIcon className="h-6 w-6 text-red-900"/>
+          <TrashIcon className="w-6 h-6 text-red-900" />
         </button>
       )}
     >
-
-     <form onSubmit={handleSubmit}>
-      <div>
-          <span className="text-gray-600 tracking-[-0.5px] text-xs">Saldo Inicial</span>
-
+      <form onSubmit={handleSubmit}>
+        <div>
+          <span className="text-gray-600 tracking-[-0.5px] text-xs">Saldo inicial</span>
           <div className="flex items-center gap-2">
             <span className="text-gray-600 tracking-[-0.5px] text-lg">R$</span>
-              <Controller
-                control={control}
-                name="initialBalance"
-                defaultValue="0"
-                render={({ field: { onChange, value } }) => (
-                  <InputCurrency
-                    error={errors.initialBalance?.message}
-                    onChange={onChange}
-                    value={value}
-                  />
-                )}
-              />
+
+            <Controller
+              control={control}
+              name="initialBalance"
+              defaultValue={0}
+              render={({ field: { onChange, value } }) => (
+                <InputCurrency
+                  error={errors.initialBalance?.message}
+                  onChange={onChange}
+                  value={value}
+                />
+              )}
+            />
           </div>
         </div>
 
@@ -88,22 +89,21 @@ export function EditAccountModal() {
                 value={value}
                 options={[
                   {
-                    value: 'INVESTMENT',
-                    label: 'Investimentos',
-                  },
-                  {
                     value: 'CHECKING',
                     label: 'Conta Corrente',
                   },
                   {
+                    value: 'INVESTMENT',
+                    label: 'Investimentos',
+                  },
+                  {
                     value: 'CASH',
-                    label: 'Dinheiro',
+                    label: 'Dinheiro Físico',
                   },
                 ]}
               />
             )}
           />
-
 
           <Controller
             control={control}
@@ -120,9 +120,9 @@ export function EditAccountModal() {
         </div>
 
         <Button type="submit" className="w-full mt-6" isPending={isLoading}>
-           Salvar
+          Salvar
         </Button>
-     </form>
+      </form>
     </Modal>
-  )
+  );
 }
