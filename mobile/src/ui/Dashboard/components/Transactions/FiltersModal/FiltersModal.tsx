@@ -61,7 +61,7 @@ export function FiltersModal({open, onClose, onApplyFilters, rightAction}: Filte
               bankAccountId: selectedBankAccountId,
               year: selectedYear,
           })}>
-            <Text color="#fff" weight="600">Aplicar Filtros</Text>
+            Aplicar Filtros
           </Button>
         </View>
       </View>  
