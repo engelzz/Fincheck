@@ -24,6 +24,7 @@ export function useLoginController() {
     register,
     handleSubmit: hookFormSubmit,
     formState: { errors },
+    control,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -46,5 +47,5 @@ export function useLoginController() {
     }
   });
 
-  return { handleSubmit, register, errors, isLoading };
+  return { handleSubmit, register, errors, isLoading, control };
 }

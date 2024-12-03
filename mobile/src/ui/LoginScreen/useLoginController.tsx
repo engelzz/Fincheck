@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { authService } from '../../app/services/AuthService/auth.Service.ts';
 import { SigninParams } from '../../app/services/AuthService/signin';
-import { useAuth } from '../../hooks/useAuth';
+// import { useAuth } from '../../hooks/useAuth';
 
 
 
@@ -35,13 +35,13 @@ export function useLoginController() {
     },
   });
 
-  const { signin } = useAuth();
+  // const { signin } = useAuth();
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
       const { accessToken } = await mutateAsync(data);
 
-      signin(accessToken);
+      // signin(accessToken);
     } catch {
       console.log('Credenciais inválidas!')
     }

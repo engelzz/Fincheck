@@ -1,6 +1,5 @@
 import { TouchableOpacity, View } from "react-native";
 
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import React from "react";
 import { Controller } from "react-hook-form";
@@ -10,7 +9,7 @@ import { Text } from "../components/Text";
 import { Container, Input } from "./styles";
 import { useLoginController } from "./useLoginController";
 
-export function LoginScreen({navigation}: NativeStackScreenProps) {
+export function LoginScreen({navigation}) {
   const { handleSubmit, register, errors, isLoading, control } = useLoginController();
 
   return (
