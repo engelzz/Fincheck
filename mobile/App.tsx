@@ -1,7 +1,6 @@
 import { useFonts } from 'expo-font';
 import { AuthNavigation } from './src/app/auth/AuthNavigation';
 
-
 export default function App() {
   const [isFontsLoaded] = useFonts({
     'GeneralSans-400': require('./src/assets/fonts/GeneralSans-Regular.otf'),
