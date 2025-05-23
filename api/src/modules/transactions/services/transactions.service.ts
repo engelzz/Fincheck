@@ -107,6 +107,8 @@ export class TransactionsService {
     await this.transactionsRepo.delete({
       where: { id: transactionId },
     });
+
+    return null;
   }
 
   private async validateEntitiesOwnership({
