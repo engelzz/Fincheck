@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from "react-hook-form";
+import Toast from "react-native-toast-message";
 import { z } from "zod";
 import { authService } from "../../app/services/AuthService/auth.Service.ts";
 import { SignupParams } from "../../app/services/AuthService/signup";
@@ -30,7 +31,7 @@ export function useRegisterController() {
     resolver: zodResolver(schema),
   });
 
-  const { mutateAsync, isLoading } = useMutation({
+  const { mutateAsync, isPending: isLoading } = useMutation({
     mutationFn: async (data: SignupParams) => {
       return authService.signup(data);
     },
@@ -42,9 +43,19 @@ export function useRegisterController() {
     try {
       const { accessToken } = await mutateAsync(data);
 
+      Toast.show({
+        type: "success",
+        text1: "Conta criada com sucesso!",
+        text2: "Bem-vindo ao Fincheck.",
+      });
+
       signin(accessToken);
     } catch {
-      console.log('Ocorreu um erro ao criar a sua conta!')
+      Toast.show({
+        type: "error",
+        text1: "Erro ao criar conta",
+        text2: "Ocorreu um erro ao criar a sua conta!",
+      });
     }
   });
 
