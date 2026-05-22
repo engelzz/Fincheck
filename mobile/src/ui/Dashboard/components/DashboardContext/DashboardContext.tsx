@@ -57,8 +57,8 @@ export function DashboardProvider({ children }: {children: React.ReactNode}) {
   }, []);
 
   const closeEditAccountModal = useCallback(() => {
-    setIsEditAccountModalOpen(false)
     setIsEditAccountModalOpen(false);
+    setAccountBeingEdited(null);
   }, []);
 
   return (

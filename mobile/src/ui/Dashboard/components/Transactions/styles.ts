@@ -1,17 +1,21 @@
 import styled from "styled-components/native";
 
 export const Transactions = styled.View`
-  background-color: #E9ECEF;
+  background-color: #e9ecef;
   border-radius: 24px;
   width: 100%;
   height: 100%;
+  min-height: 350px;
   padding: 32px 16px;
+  flex: 1;
+  overflow: visible;
 `;
 
 export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
+  z-index: 10;
 `;
 
 export const TransactionCard = styled.View`

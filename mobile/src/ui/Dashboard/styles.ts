@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const Container = styled.ScrollView`
-  padding: 8px;
+  flex: 1;
 `;
 
 export const Header = styled.View`
@@ -12,7 +12,7 @@ export const Header = styled.View`
 `;
 
 export const Avatar = styled.View`
-  background-color: #E6FCF5;
+  background-color: #e6fcf5;
   border-radius: 9999px;
   width: 48px;
   height: 48px;
@@ -20,4 +20,10 @@ export const Avatar = styled.View`
   justify-content: center;
   border-width: 1px;
   border-color: #c3fae8;
+`;
+
+export const FabContainer = styled.View`
+  position: absolute;
+  bottom: 24px;
+  right: 16px;
 `;
