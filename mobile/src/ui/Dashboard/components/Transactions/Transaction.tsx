@@ -1,15 +1,26 @@
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
+import { EmptyState } from "../../../../assets/images/emptyState";
+import { formatCurrency } from "../../../../utils/formatCurrency";
 import { FormatDate } from "../../../../utils/formatDate";
 import { CategoryIcon } from "../../../components/Icons/categories/CategoryIcon";
-import { ChevronDownIcon } from "../../../components/Icons/ChevronDownIcon";
 import { FilterIcon } from "../../../components/Icons/FilterIcon";
-import { TransactionsIcon } from "../../../components/Icons/TransactionsIcon";
 import { Text } from "../../../components/Text";
+import { EditTransactionModal } from "../Modals/EditTransactionModal/EditTransactionModal";
 import { FiltersModal } from "./FiltersModal/FiltersModal";
-import { Header, TransactionCard, TransactionDetails, Transactions } from "./styles";
+import {
+  Header,
+  TransactionCard,
+  TransactionDetails,
+  Transactions,
+} from "./styles";
 import { TransactionSwipper } from "./TransactionSwiper/TransactionSwiper";
+import { TransactionTypeDropdown } from "./TransactionTypeDropdown/TransactionTypeDropdown";
 import { useTransactionsController } from "./useTransactionsController";
 
 export function Transaction() {
@@ -24,65 +35,105 @@ export function Transaction() {
     handleChangeFilters,
     filters,
     handleApplyFilters,
+    handleOpenEditModal,
+    handleCloseEditModal,
     isEditModalOpen,
     transactionBeingEdited,
-    handleCloseEditModal,
-    handleOpenEditModal,
   } = useTransactionsController();
 
   return (
     <Transactions>
+      {isEditModalOpen && (
+        <EditTransactionModal
+          open={isEditModalOpen}
+          transaction={transactionBeingEdited}
+          onClose={handleCloseEditModal}
+        />
+      )}
+
       <FiltersModal
-          open={isFiltersModalOpen}
-          onClose={handleCloseFiltersModal}
-          onApplyFilters={handleApplyFilters}
+        open={isFiltersModalOpen}
+        onClose={handleCloseFiltersModal}
+        onApplyFilters={handleApplyFilters}
       />
-      
+
       <Header>
-       <TouchableOpacity style={{flexDirection: 'row', gap: 4, alignItems: 'center'}}>
-        <TransactionsIcon />
-
-        <Text color="#343A40" weight="500" size={14}>Transações</Text>
-
-        <ChevronDownIcon />
-       </TouchableOpacity>
+        <TransactionTypeDropdown
+          selectedType={filters.type}
+          onSelect={handleChangeFilters("type")}
+        />
 
         <TouchableOpacity onPress={handleOpenFiltersModal}>
           <FilterIcon />
         </TouchableOpacity>
-        
       </Header>
 
-      <View style={{marginTop: 8, marginBottom: 8}}>
-        <TransactionSwipper />
-      </View>
-      
-      {/* <View 
-        style={{alignItems: "center", justifyContent: "center",}}
-      >
-        <EmptyState />
+      <TransactionSwipper
+        selectedMonth={filters.month}
+        onMonthChange={handleChangeFilters("month")}
+      />
 
-        <Text>
-          Você ainda não cadastrou nada, você pode começar por suas contas,
-          depois receitas e despesas :)
-        </Text>
-      </View> */}
-
-      <TransactionCard>
-        <View style={{alignItems: 'center'}}>
-          <CategoryIcon 
-            type="expense"
-          />
+      {isInitialLoading && (
+        <View style={{ paddingVertical: 32, alignItems: "center" }}>
+          <ActivityIndicator size="large" color="#087f5b" />
         </View>
+      )}
 
-        <TransactionDetails>
-            <Text weight="600">Conta de Luz</Text>
+      {!isInitialLoading && isLoading && (
+        <View style={{ paddingVertical: 32, alignItems: "center" }}>
+          <ActivityIndicator size="large" color="#087f5b" />
+        </View>
+      )}
 
-            <Text color="#868E96" size={14}>{FormatDate(new Date())}</Text>
-          </TransactionDetails>
+      {!isInitialLoading && !isLoading && transactions.length === 0 && (
+        <View style={{ alignItems: "center", paddingVertical: 32, gap: 16 }}>
+          <EmptyState />
+          <Text color="#6c757d" size={14} style={{ textAlign: "center" }}>
+            Não encontramos nenhuma transação!
+          </Text>
+        </View>
+      )}
 
-        <Text weight="500" color="#E03131">-R$100,00</Text>
-      </TransactionCard>
+      {!isInitialLoading && !isLoading && transactions.length > 0 && (
+        <FlatList
+          data={transactions}
+          keyExtractor={(item) => item.id}
+          scrollEnabled={false}
+          style={{ marginTop: 8 }}
+          ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => handleOpenEditModal(item)}
+              activeOpacity={0.8}
+            >
+              <TransactionCard>
+                <View style={{ alignItems: "center" }}>
+                  <CategoryIcon
+                    type={item.type === "EXPENSE" ? "expense" : "income"}
+                    category={item.category?.icon}
+                  />
+                </View>
+
+                <TransactionDetails>
+                  <Text weight="600">{item.name}</Text>
+                  <Text color="#868E96" size={14}>
+                    {FormatDate(new Date(item.date))}
+                  </Text>
+                </TransactionDetails>
+
+                <Text
+                  weight="500"
+                  color={item.type === "EXPENSE" ? "#E03131" : "#2f9e44"}
+                  style={!areValuesVisible ? { opacity: 0 } : undefined}
+                >
+                  {item.type === "EXPENSE" ? "-" : "+"}
+                  {formatCurrency(item.value)}
+                </Text>
+              </TransactionCard>
+            </TouchableOpacity>
+          )}
+        />
+      )}
     </Transactions>
-  )
+  );
 }

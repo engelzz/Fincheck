@@ -1,70 +1,141 @@
 import React from "react";
-import { Modal, TouchableOpacity, View } from "react-native";
+import { FlatList, Modal, TouchableOpacity } from "react-native";
 import { Button } from "../../../../components/Button/Button";
 import { ChevronLeftIcon } from "../../../../components/Icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "../../../../components/Icons/ChevronRight";
 import { CloseIcon } from "../../../../components/Icons/CloseIcon";
 import { Text } from "../../../../components/Text";
 import { useFiltersModal } from "./useFiltersModal";
+import {
+  AccountItem,
+  ButtonSection,
+  DragHandle,
+  Header,
+  HeaderSpacer,
+  Overlay,
+  OverlayTouchable,
+  Separator,
+  SectionTitle,
+  Sheet,
+  YearRow,
+  YearSection,
+} from "./styles";
 
 interface FiltersModalProps {
   open: boolean;
   onClose(): void;
-  onApplyFilters(filters: {bankAccountId: string | undefined, year: number;}): void;
-  rightAction?: React.ReactNode;
+  onApplyFilters(filters: {
+    bankAccountId: string | undefined;
+    year: number;
+  }): void;
 }
 
-export function FiltersModal({open, onClose, onApplyFilters, rightAction}: FiltersModalProps) {
-  const { selectedBankAccountId, handleSelectBankAccount, selectedYear, handleChangeYear, accounts } = useFiltersModal();
+export function FiltersModal({
+  open,
+  onClose,
+  onApplyFilters,
+}: FiltersModalProps) {
+  const {
+    selectedBankAccountId,
+    handleSelectBankAccount,
+    selectedYear,
+    handleChangeYear,
+    accounts,
+  } = useFiltersModal();
 
   return (
     <Modal
       visible={open}
       animationType="slide"
-      presentationStyle='pageSheet'
+      transparent
+      statusBarTranslucent
     >
+      <Overlay>
+        <OverlayTouchable activeOpacity={1} onPress={onClose} />
 
-      <View style={{padding: 48}}>
-        <View style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', paddingBottom: 40, paddingTop: 28}}>
-          <TouchableOpacity onPress={onClose}>
-            <CloseIcon />
-          </TouchableOpacity>
+        <Sheet>
+          <DragHandle />
 
-            <Text weight="600">Filtros</Text>
+          <Header>
+            <TouchableOpacity
+              onPress={onClose}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            >
+              <CloseIcon />
+            </TouchableOpacity>
 
-            <View>{rightAction}</View>
-        </View>
-        
-        <View>
-          <Text size={18} color="#343A40" weight="700">Conta</Text>
+            <Text weight="600" size={16} color="#212529">
+              Filtros
+            </Text>
 
-          <TouchableOpacity style={{marginTop: 24, marginLeft: 8, gap: 16}}>
-            <Text size={16} color="#343A40">Nubank</Text>
-            <Text size={16} color="#343A40">Inter</Text>
-            <Text size={16} color="#343A40">XP Investimentos</Text>
-          </TouchableOpacity>
-        </View>
+            <HeaderSpacer />
+          </Header>
 
-        <View style={{marginTop: 80}}>
-          <Text size={18} color="#343A40" weight="700">Ano</Text>
-          
-          <View style={{flexDirection: 'row', justifyContent: 'space-between' , marginTop: 24}}>
-            <ChevronLeftIcon />
-            <Text size={18} color="#343A40">{selectedYear}</Text>
-            <ChevronRightIcon />
-          </View>
-        </View>
+          <SectionTitle>
+            <Text weight="700" size={18} color="#212529">
+              Conta
+            </Text>
+          </SectionTitle>
 
-        <View style={{marginTop: 72}}>
-          <Button 
-            onPress={() => onApplyFilters({
-              bankAccountId: selectedBankAccountId,
-              year: selectedYear,
-          })}>
-            Aplicar Filtros
-          </Button>
-        </View>
-      </View>  
+          <FlatList
+            data={accounts}
+            keyExtractor={(item) => item.id}
+            style={{ marginTop: 16 }}
+            scrollEnabled={false}
+            ItemSeparatorComponent={() => <Separator />}
+            renderItem={({ item }) => (
+              <AccountItem onPress={() => handleSelectBankAccount(item.id)}>
+                <Text
+                  size={16}
+                  color={selectedBankAccountId === item.id ? "#087f5b" : "#495057"}
+                  weight={selectedBankAccountId === item.id ? "600" : "500"}
+                >
+                  {item.name}
+                </Text>
+              </AccountItem>
+            )}
+          />
+
+          <YearSection>
+            <Text weight="700" size={18} color="#212529">
+              Ano
+            </Text>
+
+            <YearRow>
+              <TouchableOpacity
+                onPress={() => handleChangeYear(-1)}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              >
+                <ChevronLeftIcon />
+              </TouchableOpacity>
+
+              <Text size={18} weight="600" color="#212529">
+                {selectedYear}
+              </Text>
+
+              <TouchableOpacity
+                onPress={() => handleChangeYear(1)}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              >
+                <ChevronRightIcon />
+              </TouchableOpacity>
+            </YearRow>
+          </YearSection>
+
+          <ButtonSection>
+            <Button
+              onPress={() =>
+                onApplyFilters({
+                  bankAccountId: selectedBankAccountId,
+                  year: selectedYear,
+                })
+              }
+            >
+              Aplicar Filtros
+            </Button>
+          </ButtonSection>
+        </Sheet>
+      </Overlay>
     </Modal>
-  )
+  );
 }
