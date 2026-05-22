@@ -1,5 +1,7 @@
+import { SvgXml } from "react-native-svg";
+
 export function Travel() {
-  return (
+  const markup = `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="42" height="42" rx="21" fill="#FFF4E6"/>
       <path d="M27.2054 16.2871H16.7956C14.4565 16.2871 13 17.9382 13 20.2753V26.5821C13 28.9192 14.4565 30.5704 16.7965 30.5704H27.2054C29.5444 30.5704 31 28.9192 31 26.5821V20.2753C31 17.9382 29.5376 16.2871 27.2054 16.2871Z" stroke="#FF922B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -9,5 +11,7 @@ export function Travel() {
       <path d="M17.7109 16.3213V23.1965M17.7109 30.5465V26.2537" stroke="#FF922B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <rect x="1" y="1" width="42" height="42" rx="21" stroke="white" strokeWidth="2"/>
     </svg>
-  );
+  </svg>`;
+
+  return <SvgXml xml={markup} />;
 }

@@ -1,6 +1,7 @@
+import { SvgXml } from "react-native-svg";
+
 export function InvestmentIcon() {
-  return (
-    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const markup = `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="42" height="42" rx="21" fill="#E9ECEF"/>
       <path d="M15.52 30.2735V28.3535" stroke="#495057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path fillRule="evenodd" clipRule="evenodd" d="M16.2547 28.3538H14.7845C13.9981 28.3538 13.3601 27.7182 13.3601 26.9339V22.0928C13.3601 21.3084 13.9981 20.6738 14.7845 20.6738H16.2547C17.0421 20.6738 17.68 21.3084 17.68 22.0928V26.9339C17.68 27.7182 17.0421 28.3538 16.2547 28.3538Z" stroke="#495057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -12,7 +13,7 @@ export function InvestmentIcon() {
       <path fillRule="evenodd" clipRule="evenodd" d="M29.2147 21.1536H27.7445C26.958 21.1536 26.3201 20.518 26.3201 19.7337V16.8125C26.3201 16.0282 26.958 15.3936 27.7445 15.3936H29.2147C30.0021 15.3936 30.64 16.0282 30.64 16.8125V19.7337C30.64 20.518 30.0021 21.1536 29.2147 21.1536Z" stroke="#495057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M28.48 15.3941V12.9941" stroke="#495057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <rect x="1" y="1" width="42" height="42" rx="21" stroke="white" strokeWidth="2"/>
-    </svg>
+    </svg>`;
 
-  );
+  return <SvgXml xml={markup} />;
 }
