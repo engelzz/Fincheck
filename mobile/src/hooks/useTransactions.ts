@@ -3,7 +3,7 @@ import { TransactionsFilters } from "../app/services/TransactionsService/getAll"
 import { transactionsService } from "../app/services/TransactionsService/transactionsService";
 
 export function useTransactions(filters: TransactionsFilters) {
-   const { data, isFetching, isInitialLoading, refetch } = useQuery({
+   const { data, isFetching, isLoading, refetch } = useQuery({
     queryKey: ['transactions'],
     queryFn: () => transactionsService.getAll(filters),
   });
@@ -11,7 +11,7 @@ export function useTransactions(filters: TransactionsFilters) {
   return {
     transactions: data ?? [],
     isLoading: isFetching,
-    isInitialLoading,
+    isInitialLoading: isLoading,
     refetchTransactions: refetch,
   }
 }
