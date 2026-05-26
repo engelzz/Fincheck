@@ -6,16 +6,18 @@ interface BlurredValueProps {
   children: React.ReactNode;
   tint?: "light" | "dark" | "default" | "prominent" | "systemChromeMaterial";
   intensity?: number;
+  borderRadius?: number;
 }
 
 export function BlurredValue({
   visible,
   children,
-  tint = "default",
-  intensity = 10,
+  tint = "light",
+  intensity = 60,
+  borderRadius = 6,
 }: BlurredValueProps) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderRadius }]}>
       {children}
       {!visible && (
         <BlurView
@@ -31,6 +33,5 @@ export function BlurredValue({
 const styles = StyleSheet.create({
   container: {
     overflow: "hidden",
-    borderRadius: 4,
   },
 });

@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { Animated } from 'react-native';
+import { Animated, ScrollView } from 'react-native';
 import { ChevronDownIcon } from '../Icons/ChevronDownIcon';
 import { Text } from '../Text';
 import {
@@ -57,29 +57,31 @@ export function Select({ value, onChange, options, placeholder, error }: SelectP
 
       {isOpen && (
         <DropdownList hasError={!!error}>
-          {options.map((item, index) => (
-            <Fragment key={item.value}>
-              {index > 0 && <Separator />}
-              <OptionItem
-                onPress={() => handleSelect(item)}
-                isSelected={value === item.value}
-                activeOpacity={0.7}
-              >
-                <Text
-                  size={16}
-                  color={value === item.value ? '#087f5b' : '#495057'}
-                  weight={value === item.value ? '600' : undefined}
+          <ScrollView bounces={false} showsVerticalScrollIndicator={false} nestedScrollEnabled>
+            {options.map((item, index) => (
+              <Fragment key={item.value}>
+                {index > 0 && <Separator />}
+                <OptionItem
+                  onPress={() => handleSelect(item)}
+                  isSelected={value === item.value}
+                  activeOpacity={0.7}
                 >
-                  {item.label}
-                </Text>
-                {value === item.value && (
-                  <Text size={14} color="#087f5b" weight="600">
-                    ✓
+                  <Text
+                    size={16}
+                    color={value === item.value ? '#087f5b' : '#495057'}
+                    weight={value === item.value ? '600' : undefined}
+                  >
+                    {item.label}
                   </Text>
-                )}
-              </OptionItem>
-            </Fragment>
-          ))}
+                  {value === item.value && (
+                    <Text size={14} color="#087f5b" weight="600">
+                      ✓
+                    </Text>
+                  )}
+                </OptionItem>
+              </Fragment>
+            ))}
+          </ScrollView>
         </DropdownList>
       )}
 

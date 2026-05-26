@@ -2,7 +2,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAuth } from "../../hooks/useAuth";
 import { Dashboard } from "../../ui/Dashboard/Dasboard";
 import { LoginScreen } from "../../ui/LoginScreen/LoginScreen";
@@ -32,14 +31,12 @@ export function AuthNavigation() {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <NavigationContainer>
-            <AuthStack />
-          </NavigationContainer>
-        </AuthProvider>
-      </QueryClientProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <NavigationContainer>
+          <AuthStack />
+        </NavigationContainer>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
