@@ -5,9 +5,7 @@ export const Transactions = styled.View`
   border-radius: 24px;
   width: 100%;
   height: 100%;
-  min-height: 350px;
   padding: 32px 16px;
-  flex: 1;
   overflow: visible;
 `;
 

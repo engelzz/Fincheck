@@ -1,6 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import { BankAccount } from "../../../../app/entities/BankAccount";
 import { formatCurrency } from "../../../../utils/formatCurrency";
+import { BlurredValue } from "../../../components/BlurredValue/BlurredValue";
 import { BankAccountTypeIcon } from "../../../components/Icons/BankAccountTypeIcon";
 import { Text } from "../../../components/Text";
 import { useDashboard } from "../DashboardContext/useDashboard";
@@ -34,23 +35,11 @@ export function AccountCard({ data, cardWidth }: AccountCardProps) {
         </View>
 
         <View style={{ gap: 2 }}>
-          <Text
-            color="#343A40"
-            weight="500"
-            style={
-              !areValuesVisible
-                ? {
-                    color: "transparent",
-                    textShadowColor: "rgba(52,58,64,0.85)",
-                    textShadowOffset: { width: 0, height: 0 },
-                    textShadowRadius: 8,
-                    filter: [{ blur: 4 }],
-                  }
-                : undefined
-            }
-          >
-            {formatCurrency(data.currentBalance)}
-          </Text>
+          <BlurredValue visible={areValuesVisible} tint="light" intensity={55} borderRadius={6}>
+            <Text color="#343A40" weight="500">
+              {formatCurrency(data.currentBalance)}
+            </Text>
+          </BlurredValue>
           <Text color="#868e96" size={14}>
             Saldo Atual
           </Text>

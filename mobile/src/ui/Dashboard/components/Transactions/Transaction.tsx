@@ -8,6 +8,7 @@ import {
 import { EmptyState } from "../../../../assets/images/emptyState";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { FormatDate } from "../../../../utils/formatDate";
+import { BlurredValue } from "../../../components/BlurredValue/BlurredValue";
 import { CategoryIcon } from "../../../components/Icons/categories/CategoryIcon";
 import { FilterIcon } from "../../../components/Icons/FilterIcon";
 import { Text } from "../../../components/Text";
@@ -121,14 +122,15 @@ export function Transaction() {
                   </Text>
                 </TransactionDetails>
 
-                <Text
-                  weight="500"
-                  color={item.type === "EXPENSE" ? "#E03131" : "#2f9e44"}
-                  style={!areValuesVisible ? { opacity: 0 } : undefined}
-                >
-                  {item.type === "EXPENSE" ? "-" : "+"}
-                  {formatCurrency(item.value)}
-                </Text>
+                <BlurredValue visible={areValuesVisible} tint="light" intensity={55} borderRadius={4}>
+                  <Text
+                    weight="500"
+                    color={item.type === "EXPENSE" ? "#E03131" : "#2f9e44"}
+                  >
+                    {item.type === "EXPENSE" ? "-" : "+"}
+                    {formatCurrency(item.value)}
+                  </Text>
+                </BlurredValue>
               </TransactionCard>
             </TouchableOpacity>
           )}

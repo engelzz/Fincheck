@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  position: relative;
+  height: 52px;
   z-index: 999;
 `;
 
@@ -38,13 +38,18 @@ export const DropdownList = styled.View<{ hasError?: boolean }>`
   left: 0;
   right: 0;
   z-index: 999;
+  max-height: 220px;
   border-width: 1px;
   border-top-width: 0px;
   border-color: ${({ hasError }) => (hasError ? "#c92a2a" : "#087f5b")};
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   background-color: #fff;
-  box-shadow: 8px 0px 4px black;
+  elevation: 5;
+  shadow-color: #000;
+  shadow-offset: 0px 4px;
+  shadow-opacity: 0.1;
+  shadow-radius: 4px;
 `;
 
 export const OptionItem = styled.TouchableOpacity<{ isSelected: boolean }>`

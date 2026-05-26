@@ -19,7 +19,7 @@ export function Dashboard() {
   return (
     <DashboardProvider>
       <DashboardContext.Consumer>
-        {({ accountBeingEdited }) => (
+        {() => (
           <SafeAreaView style={{ flex: 1 }}>
             <Container
               contentContainerStyle={{ padding: 8, paddingBottom: 80 }}

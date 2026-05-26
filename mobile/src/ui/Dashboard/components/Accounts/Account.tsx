@@ -5,6 +5,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { formatCurrency } from "../../../../utils/formatCurrency";
+import { BlurredValue } from "../../../components/BlurredValue/BlurredValue";
 import { EyeIcon } from "../../../components/Icons/EyeIcon";
 import { PlusIcon } from "../../../components/Icons/PlusIcon";
 import { Spinner } from "../../../components/Icons/Spinner";
@@ -38,23 +39,11 @@ export function Account() {
           marginTop: 4,
         }}
       >
-        <Text
-          color="#fff"
-          weight="600"
-          size={32}
-          style={
-            !areValuesVisible
-              ? {
-                  color: "transparent",
-                  textShadowColor: "rgba(255,255,255,0.9)",
-                  textShadowOffset: { width: 0, height: 0 },
-                  textShadowRadius: 12,
-                }
-              : undefined
-          }
-        >
-          {formatCurrency(currentBalance)}
-        </Text>
+        <BlurredValue visible={areValuesVisible} tint="dark" intensity={55} borderRadius={8}>
+          <Text color="#fff" weight="600" size={32}>
+            {formatCurrency(currentBalance)}
+          </Text>
+        </BlurredValue>
 
         <TouchableOpacity
           style={{ height: 24, width: 24, justifyContent: "center" }}

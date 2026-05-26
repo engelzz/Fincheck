@@ -80,8 +80,7 @@ export function FiltersModal({
           <FlatList
             data={accounts}
             keyExtractor={(item) => item.id}
-            style={{ marginTop: 16 }}
-            scrollEnabled={false}
+            style={{ marginTop: 16, maxHeight: 220 }}
             ItemSeparatorComponent={() => <Separator />}
             renderItem={({ item }) => (
               <AccountItem onPress={() => handleSelectBankAccount(item.id)}>
