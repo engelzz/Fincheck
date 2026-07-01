@@ -1,7 +1,7 @@
 import { useFonts } from "expo-font";
-import Toast from "react-native-toast-message";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthNavigation } from "./src/app/auth/AuthNavigation";
-import { toastConfig } from "./src/ui/components/Toasts/toastConfig";
+import { ToastContainer } from "./src/ui/components/Toast/Toast";
 
 if (__DEV__) {
   require("./ReactotronConfig");
@@ -19,9 +19,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <AuthNavigation />
-      <Toast config={toastConfig} visibilityTime={2500} />
-    </>
+      <ToastContainer />
+    </SafeAreaProvider>
   );
 }

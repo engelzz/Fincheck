@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import Toast from 'react-native-toast-message';
+import { showToast } from '../../../../components/Toasts/toastConfig';
 import { z } from 'zod';
 import { transactionsService } from '../../../../../app/services/TransactionsService/transactionsService';
 import { useBankAccounts } from '../../../../../hooks/useBankAccounts';
@@ -66,21 +66,19 @@ export function useNewTransactionModal() {
       });
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      Toast.show({
-        type: 'success',
-        text1: newTransactionType === 'EXPENSE'
-          ? 'Despesa cadastrada com sucesso!'
-          : 'Receita cadastrada com sucesso!',
-      });
       closeNewTransactionModal();
       reset();
+      showToast.success(
+        newTransactionType === 'EXPENSE'
+          ? 'Despesa cadastrada com sucesso!'
+          : 'Receita cadastrada com sucesso!',
+      );
     } catch {
-      Toast.show({
-        type: 'error',
-        text1: newTransactionType === 'EXPENSE'
+      showToast.error(
+        newTransactionType === 'EXPENSE'
           ? 'Erro ao cadastrar a despesa!'
           : 'Erro ao cadastrar a receita!',
-      });
+      );
     }
   });
 

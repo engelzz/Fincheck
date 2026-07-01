@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Toast from 'react-native-toast-message';
+import { showToast } from '../../../../components/Toasts/toastConfig';
 import { z } from 'zod';
 import { bankAccountsService } from '../../../../../app/services/BankAccountsService/bankAccountsService';
 import { currencyStringToNumber } from '../../../../../utils/currencyStringToNumber';
@@ -63,10 +63,10 @@ export function useEditAccountModal() {
         id: accountBeingEdited!.id,
       });
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      Toast.show({ type: 'success', text1: 'Conta editada com sucesso!' });
       closeEditAccountModal();
+      showToast.success('Conta editada com sucesso!');
     } catch {
-      Toast.show({ type: 'error', text1: 'Erro ao salvar as alterações!' });
+      showToast.error('Erro ao salvar as alterações!');
     }
   });
 
@@ -74,10 +74,10 @@ export function useEditAccountModal() {
     try {
       await removeAccount(accountBeingEdited!.id);
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      Toast.show({ type: 'success', text1: 'Conta deletada com sucesso!' });
       closeEditAccountModal();
+      showToast.success('Conta deletada com sucesso!');
     } catch {
-      Toast.show({ type: 'error', text1: 'Erro ao deletar a conta!' });
+      showToast.error('Erro ao deletar a conta!');
     }
   }
 

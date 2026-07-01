@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Toast from 'react-native-toast-message';
+import { showToast } from '../../../../components/Toasts/toastConfig';
 import { z } from 'zod';
 import { Transaction } from '../../../../../app/entities/Transasction';
 import { transactionsService } from '../../../../../app/services/TransactionsService/transactionsService';
@@ -61,20 +61,18 @@ export function useEditTransactionModal(transaction: Transaction | null, onClose
       });
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      Toast.show({
-        type: 'success',
-        text1: transaction?.type === 'EXPENSE'
+      onClose();
+      showToast.success(
+        transaction?.type === 'EXPENSE'
           ? 'Despesa editada com sucesso!'
           : 'Receita editada com sucesso!',
-      });
-      onClose();
+      );
     } catch {
-      Toast.show({
-        type: 'error',
-        text1: transaction?.type === 'EXPENSE'
+      showToast.error(
+        transaction?.type === 'EXPENSE'
           ? 'Erro ao editar a despesa!'
           : 'Erro ao editar a receita!',
-      });
+      );
     }
   });
 
@@ -83,10 +81,10 @@ export function useEditTransactionModal(transaction: Transaction | null, onClose
       await removeTransaction(transaction!.id);
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      Toast.show({ type: 'success', text1: 'Transação deletada com sucesso!' });
       onClose();
+      showToast.success('Transação deletada com sucesso!');
     } catch {
-      Toast.show({ type: 'error', text1: 'Erro ao deletar a transação!' });
+      showToast.error('Erro ao deletar a transação!');
     }
   }
 
