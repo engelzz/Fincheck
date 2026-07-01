@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from "react-hook-form";
-import Toast from "react-native-toast-message";
+import { showToast } from "../components/Toasts/toastConfig";
 import { z } from "zod";
 import { authService } from "../../app/services/AuthService/auth.Service.ts";
 import { SignupParams } from "../../app/services/AuthService/signup";
@@ -43,19 +43,11 @@ export function useRegisterController() {
     try {
       const { accessToken } = await mutateAsync(data);
 
-      Toast.show({
-        type: "success",
-        text1: "Conta criada com sucesso!",
-        text2: "Bem-vindo ao Fincheck.",
-      });
+      showToast.success('Conta criada com sucesso!');
 
       signin(accessToken);
     } catch {
-      Toast.show({
-        type: "error",
-        text1: "Erro ao criar conta",
-        text2: "Ocorreu um erro ao criar a sua conta!",
-      });
+      showToast.error('Erro ao criar conta!');
     }
   });
 

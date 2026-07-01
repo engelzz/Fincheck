@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import Toast from "react-native-toast-message";
+import { showToast } from "../components/Toasts/toastConfig";
 import { z } from "zod";
 import { authService } from "../../app/services/AuthService/auth.Service.ts";
 import { SigninParams } from "../../app/services/AuthService/signin";
@@ -44,11 +44,7 @@ export function useLoginController() {
 
       signin(accessToken);
     } catch {
-      Toast.show({
-        type: "error",
-        text1: "Credenciais inválidas!",
-        text2: "Verifique seu e-mail e senha.",
-      });
+      showToast.error('Credenciais inválidas!');
     }
   });
 
